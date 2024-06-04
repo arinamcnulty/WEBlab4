@@ -1,0 +1,136 @@
+body{
+    background-color: #FFFFF5;
+    font-family: Trebuchet MS, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin: 0;
+}
+.left-panel{
+    flex:3;
+    min-width: 350px;
+    position: absolute;
+    top:150px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    width:calc(100% - 350px);
+    height: fit-content;
+    overflow: visible;
+}
+.cart{
+    display: block;
+    box-sizing: border-box;
+    height: 100%;
+    width: 350px;
+    position: fixed;
+    top:0;
+    right: 0;
+    background-color: #f5f5f5;
+    box-shadow: -10px 0px 5px 0px rgba(0,0,0,0.05);
+}
+header{
+    min-width: 300px;
+    position: fixed;
+    top:0;
+    left: 0;
+    display: flex;
+    box-sizing: border-box;
+    height: 100px;
+    width:calc(100% - 350px);
+    background-color: #333331;
+    color: #959595;
+}
+.header-pizza{
+    color:white;
+}
+.logo{
+    color: white;
+    background-color: #EB851D;
+    width: 90px;
+    height: 110%;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.logo-pizza{
+    font-size: 1rem;
+}
+.logo-kma{
+    font-size: 1.5rem;
+}
+.logo > img:nth-child(3){
+    transform: rotate(180deg);
+    position:relative;
+    bottom:-35px;
+}
+.info{
+    width: 88%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.all-info{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 50%;
+    border-bottom: 1.5px solid lightgrey;
+}
+.login{
+    justify-content: right;
+}
+
+
+
+
+
+.discount{
+    background-color: #EB851D;
+    margin-left: 20px;
+    width: 98px;
+    height: 85px;
+    padding: 0;
+    transition: all 1s ease;
+    left:0;
+    bottom:0;
+    position: fixed;
+    display: block;
+}
+.badge{
+    background-color: #FFFFF5;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.discount:hover{
+    height: 130px;
+}
+.badge-text{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border-right: 1px solid #C65700;
+    border-left: 1px solid #C65700;
+    font-size: 1rem;
+    box-sizing: border-box;
+    padding: 2%;
+}
+.dashed-line {
+    border-top: 1px dashed #C65700;
+    margin: 10px 0 10px 0;
+}
+.button{
+    border-radius: 5px;
+    text-align: center;
+    background-color: #EFA327;
+    color: white;
+    border: 1px solid #C65700;
+    width: 70px;
+    height: 30px;
+}
