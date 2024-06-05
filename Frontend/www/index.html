@@ -28,34 +28,29 @@
             </div>
         </header>
         <div class="pizza-filters">
-            <span>Всі піци<span class="pizza-amount">8</span>
+            <span>Усі піци<span class="pizza-amount">8</span>
         </span>
             <div class="filters">
-                <span class="all chosen">Усі</span>
-                <span class="meat">М'ясні</span>
-                <span class="pineapple">З ананасами</span>
-                <span class="mushrooms">З грибами</span>
-                <span class="seafood">З морепродуктами</span>
-                <span class="vegan">Веганські</span>
+                <button class="all chosen">Усі</button>
+                <button class="meat">М'ясні</button>
+                <button class="pineapple">З ананасами</button>
+                <button class="mushrooms">З грибами</button>
+                <button class="seafood">З морепродуктами</button>
+                <button class="vegan">Веганські</button>
             </div>
         </div>
-        <div class="discount">
-            <img src="assets/images/discount.svg" class="badge">
-            <div class="badge-text">
-                <span>ЦЬОГО</span><br>
-                <span>ТИЖНЯ</span><br>
-                <span>НА ВСЕ</span>
-                <div class="dashed-line"></div>
-                <span>-20%</span>
-            </div>
-        </div>
+        <div class="menu"></div>
+        <footer>
+            <span>Pizza.24 - практичний проект в межах курсу з основ веб-технологій в межах Києво-Могилянської академії</span>
+            <span>Доставка піци не здійснюється</span>
+        </footer>
     </main>
 
     <aside class="cart">
 
         <div class="cart-title">
-            <span>Замовлення<span>0</span></span>
-            <span class="clear-order">Очистити замовлення</span>
+            <span>Замовлення<span class="pizza-amount" id="amount-cart">0</span></span>
+            <button class="clear-order">Очистити замовлення</button>
         </div>
 
         <div class="order-list"></div>
@@ -72,7 +67,17 @@
         </div>
 
     </aside>
-
-<script src="script.js"></script>
+    <div class="discount">
+        <img src="assets/images/discount.svg" class="badge">
+        <div class="badge-text">
+            <span>ЦЬОГО</span><br>
+            <span>ТИЖНЯ</span><br>
+            <span>НА ВСЕ</span>
+            <div class="dashed-line"></div>
+            <span>-20%</span>
+        </div>
+    </div>
+    <script src="../src/Pizza_List.js"></script>
+    <script src="uploadpizza.js"></script>
 </body>
 </html>

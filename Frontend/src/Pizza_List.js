@@ -26,7 +26,7 @@ var pizza_info = [
             price: 169
         },
         is_new:true,
-        is_popular:true
+        is_popular:false
 
     },
     {
