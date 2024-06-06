@@ -25,14 +25,14 @@ body {
 
 .left-panel {
     flex: 3;
-    min-width: 300px;
+    min-width: 350px;
     position: absolute;
     top: 150px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     box-sizing: border-box;
-    width: calc(100% - 300px);
+    width: calc(100% - 350px);
     height: fit-content;
     overflow: visible;
 }
@@ -41,7 +41,7 @@ body {
     display: block;
     box-sizing: border-box;
     height: 100%;
-    width: 300px;
+    width: 350px;
     position: fixed;
     top: 0;
     right: 0;
@@ -51,14 +51,14 @@ body {
 }
 
 header {
-    min-width: 300px;
+    min-width: 350px;
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     box-sizing: border-box;
     height: 100px;
-    width: calc(100% - 300px);
+    width: calc(100% - 350px);
     background-color: var(--dark-color);
     color: var(--light-grey);
     z-index: 3;
@@ -130,12 +130,15 @@ header {
 .info-text span {
     margin-right: 6%;
 }
+
 .phone {
     font-size: 1.2rem;
 }
+
 .working-hours {
     font-size: 0.8rem;
 }
+
 .header-pizza {
     display: flex;
     align-items: center;
@@ -170,7 +173,7 @@ header {
     line-height: 35px;
     margin-left: 7px;
     margin-top: 3px;
-    font-size: 20px;
+    font-size: 0.8rem;
 }
 
 .filters {
@@ -286,6 +289,9 @@ header {
 }
 
 .order-list {
+    height: 70%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .buy-section {
@@ -360,7 +366,6 @@ footer {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin: 0 40px 0 40px;
 }
 
 .pizza-item img {
@@ -376,19 +381,19 @@ footer {
     font-weight: bold;
     display: block;
     color: #F2711D;
-    font-size: 34px;
+    font-size: 2rem;
 }
 
 .pizza-type {
     color: #b1afaf;
-    font-size: 10px;
+    font-size: 0.6rem;
 }
 
 .ingredients {
     height: 52px;
     display: block;
     margin-top: 0;
-    font-size: 14px;
+    font-size: 0.8rem;
     width: 80%;
 }
 
@@ -408,9 +413,9 @@ footer {
     width: 40%;
     height: fit-content;
     display: flex;
+    justify-content: center;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .size-s img, .size-l img {
@@ -429,7 +434,6 @@ footer {
     font-size: 1.5rem;
     margin-top: 30%;
     text-align: center;
-
 }
 
 .size-info span {
@@ -440,7 +444,8 @@ footer {
     width: 100px;
     margin-top: 12%;
 }
-.popular, .new{
+
+.popular, .new {
     position: relative;
     bottom: 625px;
     left: 230px;
@@ -448,22 +453,134 @@ footer {
     border-radius: 5px;
     padding: 2%;
     color: white;
-    width: 100px    ;
+    width: 100px;
     text-align: center;
     z-index: 2;
 }
-.new{
+
+.new {
     width: 60px;
     left: 270px;
     background-color: #E37570;
 }
-@media(max-width: 800px) {
-    .info .all-info .info-text  .working-hours{
+
+@media (max-width: 800px) {
+    .info .all-info .info-text .working-hours {
         display: none;
     }
 }
-@media(max-width: 1000px) {
-    .info .all-info .info-text  .delivery-status{
+
+@media (max-width: 1000px) {
+    .info .all-info .info-text .delivery-status {
         display: none;
     }
+}
+
+
+.order-item {
+    display: flex;
+    flex-direction: row;
+    height: 120px;
+    border-bottom: 1px solid lightgrey;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.details {
+    display: inline;
+    width: 80%;
+    height: 80%;
+}
+
+.order-info {
+    margin-top: 15px;
+    width: 30%;
+}
+
+.pizza-name {
+    height: 30%;
+    font-size: 1.5rem;
+    color: #F2711D;
+}
+
+.order-item .details .size, .order-item .details .weight {
+    display: inline;
+}
+
+.order-item img {
+    margin-right: 3px;
+}
+
+.control-panel {
+    font-weight: bold;
+    margin-top: 7px;
+    height: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.amount-manager {
+    display: flex;
+    align-items: center;
+}
+
+.control-panel button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+}
+
+.control-panel .plus {
+    margin-left: 7px;
+    background-color: #22BA46;
+    border: 1px solid #22BA46;
+}
+
+.control-panel .plus:hover {
+    background-color: #21A340;
+    cursor: pointer;
+}
+
+.control-panel .minus {
+    margin-right: 7px;
+    background-color: #DB2828;
+    border: 1px solid #DB2828;
+}
+
+.disabled {
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.control-panel .minus:hover {
+    background-color: #BF2728;
+    cursor: pointer;
+}
+
+.control-panel .delete {
+    color: #F2711D;
+    background-color: #e3e3e3;
+    border: 1px solid #e3e3e3;
+}
+
+.control-panel .delete:hover {
+    background-color: #CFCFD0;
+    cursor: pointer;
+}
+
+.order-picture {
+    display: flex;
+    align-items: center;
+    width: 60px;
+}
+
+.order-picture img {
+    position: relative;
+    right: -50%;
+    width: 130%;
+    height: 80px;
 }
