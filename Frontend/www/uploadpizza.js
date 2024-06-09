@@ -1,8 +1,9 @@
-
 console.log(pizza_info);
 const products = document.querySelector('.menu');
+let total = parseFloat(localStorage.getItem('total')) || 0;
+let amountOfPizza = parseFloat(localStorage.getItem('amount')) || 0;
 
-//load up pizza for left panel
+// load up pizza for left panel
 let cartOfpizzas = JSON.parse(localStorage.getItem("pizza")) || [];
 for (let pizza of pizza_info) {
     let new_pizza = document.createElement('div');
@@ -29,16 +30,16 @@ for (let pizza of pizza_info) {
         let small_size = document.createElement("div");
         small_size.classList.add("size-s");
         small_size.innerHTML = `<div class="size">
-                                    <img src="assets/images/size-icon.svg"/><span>${pizza.small_size.size}</span>
+                                    <img src="assets/images/size-icon.svg" alt="size icon"><span>${pizza.small_size.size}</span>
                                 </div>
                                 <div class="weight">
-                                    <img src="assets/images/weight.svg"/><span>${pizza.small_size.weight}</span>
+                                    <img src="assets/images/weight.svg"alt="weight"/><span>${pizza.small_size.weight}</span>
                                 </div>
                                 <div class="price">
                                     <b>${pizza.small_size.price}</b>
                                 </div>
                                 <span>грн.</span>
-                                <button type="button" class="button" onclick="buyPizza(event, 'small')">
+                                <button type="button" class="button" onclick="buyPizza(event, 'small', '${pizza.title}', '${pizza.small_size.size}', ${pizza.small_size.price}, ${pizza.small_size.weight}, '${pizza.icon}')">
                                     Купити
                                 </button>`;
         new_pizza.querySelector(".size-info").appendChild(small_size);
@@ -56,7 +57,7 @@ for (let pizza of pizza_info) {
                                     <b>${pizza.big_size.price}</b>
                                 </div>
                                 <span>грн.</span>
-                                <button type="button" class="button" onclick="buyPizza(event, 'large')">
+                                <button type="button" class="button" onclick="buyPizza(event, 'large', '${pizza.title}', '${pizza.big_size.size}', ${pizza.big_size.price}, ${pizza.big_size.weight}, '${pizza.icon}')">
                                     Купити
                                 </button>`;
         new_pizza.querySelector(".size-info").appendChild(big_size);
@@ -76,44 +77,51 @@ for (let pizza of pizza_info) {
     products.appendChild(new_pizza);
 }
 
-class Pizza {
-    constructor(name, size, price, weight, img) {
-        this.name = name;
-        this.size = size;
-        this.price = price;
-        this.weight = weight;
-        this.img = img;
-        this.amount = 1;
-    }
-}
-
-//buy button for pizza
-function buyPizza(event, size) {
+// buy button for pizza
+function buyPizza(event, size, name, pizzaSize, price, weight, img) {
     let buttonClicked = event.target;
     let item = buttonClicked.closest('.pizza-item');
-    let itemName = item.querySelector('.name').textContent + (size === 'large' ? " (Велика)" : " (Мала)");
-    let itemSize = item.querySelector(`.size-${size === 'large' ? 'l' : 's'} .size span`).textContent;
-    let itemPrice = parseFloat(item.querySelector(`.size-${size === 'large' ? 'l' : 's'} .price b`).textContent);
-    let itemWeight = parseFloat(item.querySelector(`.size-${size === 'large' ? 'l' : 's'} .weight span`).textContent);
-    let itemImg = item.querySelector("img").getAttribute('src');
+    let itemName = name + (size === 'large' ? " (Велика)" : " (Мала)");
+    for (let i = 0; i < cartOfpizzas.length; i++) {
+        if (cartOfpizzas[i].name === itemName) return;
+    }
 
-    let pizza = new Pizza(itemName, itemSize, itemPrice, itemWeight, itemImg);
+    total += price;
+    localStorage.setItem('total', total);
+    amountOfPizza += 1;
+    localStorage.setItem('amount', amountOfPizza);
+
+    let pizza = {
+        name: itemName,
+        size: pizzaSize,
+        price: price,
+        weight: weight,
+        img: img,
+        amount: 1
+    };
     cartOfpizzas.push(pizza);
     localStorage.setItem('pizza', JSON.stringify(cartOfpizzas));
     updateRightPanel();
 }
+
+
 //delete pizza item
-function deletePizza(event){
+function deletePizza(event) {
     let buttonClicked = event.target;
     let item = buttonClicked.closest('.details');
     let itemName = item.getElementsByClassName('pizza-name')[0].textContent.trim();
     let itemIndex = cartOfpizzas.findIndex(pizza => pizza.name === itemName);
     if (itemIndex !== -1) {
+        total -= cartOfpizzas[itemIndex].price * cartOfpizzas[itemIndex].amount;
+        localStorage.setItem('total', total);
+        amountOfPizza -=1;
+        localStorage.setItem('amount', amountOfPizza);
         cartOfpizzas.splice(itemIndex, 1);
         localStorage.setItem('pizza', JSON.stringify(cartOfpizzas));
         updateRightPanel();
     }
 }
+
 //plus/minus pizza quantity
 function changeQuantity(event, delta) {
     let buttonClicked = event.target;
@@ -122,6 +130,7 @@ function changeQuantity(event, delta) {
     let itemName = item.getElementsByClassName('pizza-name')[0].textContent.trim();
 
     let itemIndex = cartOfpizzas.findIndex(pizza => pizza.name === itemName);
+    let itemPrice = cartOfpizzas[itemIndex].price;
 
     if (itemIndex !== -1) {
         let currentQuantity = parseInt(itemQuantity.textContent);
@@ -135,25 +144,110 @@ function changeQuantity(event, delta) {
         } else {
             minusButton.classList.remove('disabled');
         }
-        cartOfpizzas[itemIndex].amount = currentQuantity; // Update the quantity in the array
-        localStorage.setItem('pizza', JSON.stringify(cartOfpizzas)); // Save to local storage
-        updateRightPanel(); // Update the right panel
+
+        total += itemPrice * delta;
+        localStorage.setItem('total', total);
+        amountOfPizza += delta;
+        localStorage.setItem('amount', amountOfPizza);
+
+
+        cartOfpizzas[itemIndex].amount = currentQuantity;
+        localStorage.setItem('pizza', JSON.stringify(cartOfpizzas));
+        updateRightPanel();
     }
 }
+
 //clear orders
-function clearOrder(event){
+function clearOrder(event) {
     cartOfpizzas = [];
+    total = 0;
+    amountOfPizza =0;
+    localStorage.setItem('total', total);
+    localStorage.setItem('amount', amountOfPizza);
     localStorage.setItem('pizza', JSON.stringify(cartOfpizzas));
     updateRightPanel();
 }
 
-function filterPizza(event){
+//filter pizza in menu
+function filterPizza(event) {
+    let text = document.querySelector('.filter-name');
+    let amount = document.querySelector('#amount-main');
+    //all meat pineapple mushrooms seafood vegan
+    document.querySelectorAll('.filters button').forEach(button => {
+        button.classList.remove('chosen');
+    });
+    event.target.classList.add('chosen');
+    const filterCategory = event.target.classList[0];
+    const allPizzas = document.querySelectorAll('.pizza-item');
+    allPizzas.forEach(pizza => {
+        const pizzaType = pizza.getAttribute('type');
+        const hasPineapple = pizza.getAttribute('add-ons')?.includes('pineapple');
+        const hasMushrooms = pizza.getAttribute('add-ons')?.includes('mushrooms');
 
+        switch (filterCategory) {
+            case 'all':
+                pizza.style.display = 'block';
+                text.textContent='Усі піци';
+                amount = '8';
+                break;
+            case 'meat':
+                text.textContent='Мясін';
+                amount = '5';
+                if (pizzaType === 'М’ясна піца') {
+                    pizza.style.display = 'block';
+                } else {
+                    pizza.style.display = 'none';
+                }
+                break;
+            case 'pineapple':
+                amount = '2';
+                text.textContent='З ананасами';
+                if (hasPineapple)
+                    pizza.style.display = 'block';
+                else
+                    pizza.style.display = 'none';
+                break;
+            case 'mushrooms':
+                amount = '3';
+                text.textContent='З грибами';
+                if (hasMushrooms)
+                    pizza.style.display = 'block';
+                else
+                    pizza.style.display = 'none';
+                break;
+            case 'seafood':
+                amount = '2';
+                text.textContent='Морські';
+                if (pizzaType === 'Морська піца')
+                    pizza.style.display = 'block';
+                else
+                    pizza.style.display = 'none';
+                break;
+            case 'vegan':
+                amount = '1';
+                text.textContent='Веганські';
+                if (pizzaType === 'Вега піца')
+                    pizza.style.display = 'block';
+                else
+                    pizza.style.display = 'none';
+                break;
+            default:
+                pizza.style.display = 'block';
+                break;
+        }
+    });
 }
+
 //creates products in the cart
 function updateRightPanel() {
     let orderList = document.querySelector('.order-list');
     orderList.innerHTML = '';
+    let totalCart = document.querySelector('.sum');
+    totalCart.textContent = `${total} грн`;
+    let amountPizza = document.querySelector('#amount-cart');
+    if (amountOfPizza >= 10) amountPizza.style.textIndent='3px';
+    else amountPizza.style.textIndent='7px';
+        amountPizza.textContent = `${amountOfPizza}`;
 
     cartOfpizzas.forEach(pizza => {
         let pizzaItem = document.createElement('div');
@@ -187,4 +281,6 @@ function updateRightPanel() {
         orderList.appendChild(pizzaItem);
     });
 }
+
 updateRightPanel();
+filterPizza();

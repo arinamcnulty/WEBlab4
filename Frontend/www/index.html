@@ -28,15 +28,15 @@
             </div>
         </header>
         <div class="pizza-filters">
-            <span>Усі піци<span class="pizza-amount">8</span>
+            <span><span class="filter-name">Усі піци</span><span class="pizza-amount" id="amount-main">8</span>
         </span>
             <div class="filters">
-                <button class="all chosen">Усі</button>
-                <button class="meat">М'ясні</button>
-                <button class="pineapple">З ананасами</button>
-                <button class="mushrooms">З грибами</button>
-                <button class="seafood">З морепродуктами</button>
-                <button class="vegan">Веганські</button>
+                <button class="all chosen" onclick="filterPizza(event)">Усі</button>
+                <button class="meat" onclick="filterPizza(event)">М'ясні</button>
+                <button class="pineapple" onclick="filterPizza(event)">З ананасами</button>
+                <button class="mushrooms" onclick="filterPizza(event)">З грибами</button>
+                <button class="seafood" onclick="filterPizza(event)">З морепродуктами</button>
+                <button class="vegan" onclick="filterPizza(event)">Веганські</button>
             </div>
         </div>
         <div class="menu"></div>
