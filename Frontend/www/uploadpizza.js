@@ -82,14 +82,18 @@ function buyPizza(event, size, name, pizzaSize, price, weight, img) {
     let buttonClicked = event.target;
     let item = buttonClicked.closest('.pizza-item');
     let itemName = name + (size === 'large' ? " (Велика)" : " (Мала)");
-    for (let i = 0; i < cartOfpizzas.length; i++) {
-        if (cartOfpizzas[i].name === itemName) return;
-    }
 
+    for (let i = 0; i < cartOfpizzas.length; i++) {
+        if (cartOfpizzas[i].name === itemName) {
+            changeQuantityByName(itemName, 1);
+            return;
+        }
+    }
     total += price;
     localStorage.setItem('total', total);
     amountOfPizza += 1;
     localStorage.setItem('amount', amountOfPizza);
+
 
     let pizza = {
         name: itemName,
@@ -134,11 +138,17 @@ function changeQuantity(event, delta) {
 
     if (itemIndex !== -1) {
         let currentQuantity = parseInt(itemQuantity.textContent);
-        currentQuantity = Math.max(1, currentQuantity + delta);
+        currentQuantity += delta;
+
+        // If the quantity is 1 and delta is -1, delete the pizza
+        if (currentQuantity === 0) {
+            deletePizza(event);
+            return;
+        }
+
         itemQuantity.textContent = currentQuantity;
 
         let minusButton = item.querySelector('.minus');
-
         if (currentQuantity === 1) {
             minusButton.classList.add('disabled');
         } else {
@@ -150,8 +160,26 @@ function changeQuantity(event, delta) {
         amountOfPizza += delta;
         localStorage.setItem('amount', amountOfPizza);
 
+        cartOfpizzas[itemIndex].amount = currentQuantity;
+        localStorage.setItem('pizza', JSON.stringify(cartOfpizzas));
+        updateRightPanel();
+    }
+}
+function changeQuantityByName(itemName, delta) {
+    let itemIndex = cartOfpizzas.findIndex(pizza => pizza.name === itemName);
+
+    if (itemIndex !== -1) {
+        let currentQuantity = cartOfpizzas[itemIndex].amount;
+        currentQuantity = Math.max(1, currentQuantity + delta);
 
         cartOfpizzas[itemIndex].amount = currentQuantity;
+        let itemPrice = cartOfpizzas[itemIndex].price;
+
+        total += itemPrice * delta;
+        localStorage.setItem('total', total);
+        amountOfPizza += delta;
+        localStorage.setItem('amount', amountOfPizza);
+
         localStorage.setItem('pizza', JSON.stringify(cartOfpizzas));
         updateRightPanel();
     }
@@ -192,7 +220,7 @@ function filterPizza(event) {
                 break;
             case 'meat':
                 text.textContent='Мясін';
-                amount = '5';
+                amount.textContent='5';
                 if (pizzaType === 'М’ясна піца') {
                     pizza.style.display = 'block';
                 } else {
@@ -200,7 +228,7 @@ function filterPizza(event) {
                 }
                 break;
             case 'pineapple':
-                amount = '2';
+                amount.textContent = '2';
                 text.textContent='З ананасами';
                 if (hasPineapple)
                     pizza.style.display = 'block';
@@ -208,7 +236,7 @@ function filterPizza(event) {
                     pizza.style.display = 'none';
                 break;
             case 'mushrooms':
-                amount = '3';
+                amount.textContent= '3';
                 text.textContent='З грибами';
                 if (hasMushrooms)
                     pizza.style.display = 'block';
@@ -216,7 +244,7 @@ function filterPizza(event) {
                     pizza.style.display = 'none';
                 break;
             case 'seafood':
-                amount = '2';
+                amount.textContent= '2';
                 text.textContent='Морські';
                 if (pizzaType === 'Морська піца')
                     pizza.style.display = 'block';
@@ -224,7 +252,7 @@ function filterPizza(event) {
                     pizza.style.display = 'none';
                 break;
             case 'vegan':
-                amount = '1';
+                amount.textContent= '1';
                 text.textContent='Веганські';
                 if (pizzaType === 'Вега піца')
                     pizza.style.display = 'block';
